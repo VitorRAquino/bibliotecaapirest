@@ -1,29 +1,33 @@
 package br.com.api.biblioteca.modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
     private String senha;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Perfil> perfis = new ArrayList<>();
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
-    public Usuario(String nome,  String senha, String email) {
-        this.nome = nome;
-    }
+    private LocalDateTime dataAlteracao;
 
-    public Usuario(String nome) {
+    public Usuario(String nome, String senha, String email) {
         this.nome = nome;
+        this.senha = senha;
+        this.email = email;
     }
 
     public Usuario() {
@@ -40,18 +44,13 @@ public class Usuario {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         Usuario other = (Usuario) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
+            if (other.id != null) return false;
+        } else if (!id.equals(other.id)) return false;
         return true;
     }
 
@@ -83,9 +82,58 @@ public class Usuario {
         return senha;
     }
 
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public LocalDateTime getDataCriacao() { return dataCriacao;}
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.perfis;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

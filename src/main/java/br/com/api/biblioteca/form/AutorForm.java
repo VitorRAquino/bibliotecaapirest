@@ -3,17 +3,20 @@ package br.com.api.biblioteca.form;
 import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.UsuarioRepository;
-import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
-import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class AutorForm {
-    @NotNull @NotEmpty @Length(min = 5)
+    @NotNull
+    @NotEmpty
+    @Length(min = 5)
     private String nome;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nomeUsuario;
-
 
 
     public String getNome() {
@@ -28,4 +31,13 @@ public class AutorForm {
         Usuario usuario = usuarioRepository.findByNome(nomeUsuario);
         return new Autor(nome, usuario);
     }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
 }

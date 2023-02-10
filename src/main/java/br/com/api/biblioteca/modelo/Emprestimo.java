@@ -1,7 +1,7 @@
 package br.com.api.biblioteca.modelo;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,22 +10,46 @@ public class Emprestimo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dataCriacao = LocalDateTime.now();
-
+    private LocalDateTime dataAlteracao;
     private LocalDateTime dataLimite;
-
     private LocalDateTime dataEntrega;
     @Enumerated(EnumType.STRING)
     private StatusEmprestimo status = StatusEmprestimo.ATIVO;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_alterou_id")
+    private Usuario usuarioAlterou;
 
     @ManyToOne
-    private Usuario usuario;
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuarioCriou;
     @ManyToOne
     private Livro livro;
 
-    public Emprestimo(Livro livro, Usuario usuario) {
-        this.usuario = usuario;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
+    }
+
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
+    public Emprestimo(LocalDateTime dataLimite, Livro livro, Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
         this.livro = livro;
+        this.dataLimite = dataLimite;
     }
 
     public Emprestimo() {
@@ -74,8 +98,8 @@ public class Emprestimo {
         this.dataEntrega = dataEntrega;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioCriou(Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
     }
 
     public Long getId() {
@@ -106,12 +130,20 @@ public class Emprestimo {
         return livro;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioCriou() {
+        return usuarioCriou;
     }
 
     public void setLivro(Livro livro) {
         this.livro = livro;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 
 

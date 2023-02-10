@@ -1,7 +1,6 @@
 package br.com.api.biblioteca.repository;
 
 import br.com.api.biblioteca.modelo.Autor;
-import br.com.api.biblioteca.modelo.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

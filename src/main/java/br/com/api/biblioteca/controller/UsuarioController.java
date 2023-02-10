@@ -6,19 +6,21 @@ import br.com.api.biblioteca.form.AtualizacaoUsuarioForm;
 import br.com.api.biblioteca.form.UsuarioForm;
 import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
+@Api(tags = "Usuário", description = "Gerencie Usuário")
 public class UsuarioController {
 
 

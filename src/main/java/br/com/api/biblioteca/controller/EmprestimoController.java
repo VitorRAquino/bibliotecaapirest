@@ -1,27 +1,32 @@
 package br.com.api.biblioteca.controller;
 
+import br.com.api.biblioteca.dto.ClienteDto;
 import br.com.api.biblioteca.dto.DetalhesDoEmprestimoDto;
-import br.com.api.biblioteca.dto.DetalhesDoLivroDto;
 import br.com.api.biblioteca.dto.EmprestimoDto;
-import br.com.api.biblioteca.dto.LivroDto;
+import br.com.api.biblioteca.form.AtualizacaoClienteForm;
+import br.com.api.biblioteca.form.AtualizacaoEmprestimoForm;
 import br.com.api.biblioteca.form.EmprestimoForm;
-import br.com.api.biblioteca.form.LivroForm;
+import br.com.api.biblioteca.modelo.Cliente;
 import br.com.api.biblioteca.modelo.Emprestimo;
-import br.com.api.biblioteca.modelo.Livro;
+import br.com.api.biblioteca.repository.ClienteRepository;
 import br.com.api.biblioteca.repository.EmprestimoRepository;
 import br.com.api.biblioteca.repository.LivroRepository;
 import br.com.api.biblioteca.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/emprestimos")
+@Api(tags = "Empréstimo", description = "Gerencie Empréstimo")
 public class EmprestimoController {
     @Autowired
     private EmprestimoRepository emprestimoRepository;
@@ -31,35 +36,52 @@ public class EmprestimoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-    @RequestMapping("/emprestimos")
-    @ResponseBody
+
+    @GetMapping
     @Transactional
-    public List<DetalhesDoEmprestimoDto> lista(String nome) {
-        if(nome == null) {
+    public List<EmprestimoDto> lista(String nome) {
+        if (nome == null) {
             List<Emprestimo> emprestimos = emprestimoRepository.findAll();
-            return DetalhesDoEmprestimoDto.converter(emprestimos);
-        }else {
+            return EmprestimoDto.converter(emprestimos);
+        } else {
             List<Emprestimo> emprestimos = emprestimoRepository.findByLivroNome(nome);
-            return DetalhesDoEmprestimoDto.converter(emprestimos);
+            return EmprestimoDto.converter(emprestimos);
         }
     }
+
     @PostMapping
     @Transactional
     public ResponseEntity<EmprestimoDto> cadastrar(@RequestBody @Valid EmprestimoForm form, UriComponentsBuilder uriBuilder) {
-        Emprestimo emprestimo = form.converter(livroRepository, usuarioRepository);
+        Emprestimo emprestimo = form.converter(livroRepository, usuarioRepository, clienteRepository);
 
         emprestimoRepository.save(emprestimo);
 
-        URI uri = uriBuilder.path("/livros/{id}").buildAndExpand(emprestimo.getId()).toUri();
+        URI uri = uriBuilder.path("/emprestimos/{id}").buildAndExpand(emprestimo.getId()).toUri();
         return ResponseEntity.created(uri).body(new EmprestimoDto(emprestimo));
     }
+
     @GetMapping("/{id}")
     @Transactional
-    public DetalhesDoEmprestimoDto detalhar(@PathVariable Long id) {
+    public ResponseEntity<DetalhesDoEmprestimoDto> detalhar(@PathVariable Long id) {
         Emprestimo emprestimo = emprestimoRepository.getOne(id);
 
-        return new DetalhesDoEmprestimoDto(emprestimo);
+        return ResponseEntity.notFound().build();
+    }
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<EmprestimoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoEmprestimoForm form) {
+        Optional<Emprestimo> optional = emprestimoRepository.findById(id);
+        if (optional.isPresent()) {
+            Emprestimo emprestimo = form.atualizar(id, emprestimoRepository);
+            return ResponseEntity.ok(new EmprestimoDto(emprestimo));
+        }
+
+        return ResponseEntity.notFound().build();
+
+
     }
 
     @DeleteMapping("/{id}")

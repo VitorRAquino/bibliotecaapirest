@@ -14,12 +14,18 @@ public class DetalhesDoAutorDto {
 
     private String nomeUsuario;
 
+    private String nomeUsuarioAlterou;
+
+    private LocalDateTime dataAlteracao;
+
 
     public DetalhesDoAutorDto(Autor autor) {
         this.id = autor.getId();
         this.nome = autor.getNome();
         this.dataCriacao = autor.getDataCriacao();
-        this.nomeUsuario = autor.getUsuario().getNome();
+        this.nomeUsuario = autor.getUsuarioCriou().getNome();
+        this.nomeUsuarioAlterou = autor.getUsuarioAlterou().getNome();
+        this.dataAlteracao = autor.getDataAlteracao();
     }
 
     public Long getId() {
@@ -36,5 +42,13 @@ public class DetalhesDoAutorDto {
 
     public String getNomeUsuario() {
         return nomeUsuario;
+    }
+
+    public String getNomeUsuarioAlterou() {
+        return nomeUsuarioAlterou;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
     }
 }

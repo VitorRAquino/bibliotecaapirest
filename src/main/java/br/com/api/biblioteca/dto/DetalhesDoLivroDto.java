@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class DetalhesDoLivroDto {
 
+    private final String nomeUsuarioAlterou;
     private Long id;
 
     private String nome;
@@ -17,6 +18,7 @@ public class DetalhesDoLivroDto {
     private String nomeAutor;
 
     private String nomeCategoria;
+    private LocalDateTime dataAlteracao;
 
     public DetalhesDoLivroDto(Livro livro) {
         this.id = livro.getId();
@@ -24,7 +26,12 @@ public class DetalhesDoLivroDto {
         this.dataCriacao = livro.getDataCriacao();
         this.nomeAutor = livro.getAutor().getNome();
         this.nomeCategoria = livro.getCategoria().getNome();
-        this.nomeUsuario = livro.getUsuario().getNome();
+        this.nomeUsuario = livro.getUsuarioCriou().getNome();
+        this.nomeUsuarioAlterou = livro.getUsuarioAlterou().getNome();
+    }
+
+    public String getNomeUsuarioAlterou() {
+        return nomeUsuarioAlterou;
     }
 
     public Long getId() {
@@ -49,5 +56,9 @@ public class DetalhesDoLivroDto {
 
     public String getNomeCategoria() {
         return nomeCategoria;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
     }
 }

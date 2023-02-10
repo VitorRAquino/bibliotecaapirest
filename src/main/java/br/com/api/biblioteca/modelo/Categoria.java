@@ -1,7 +1,6 @@
 package br.com.api.biblioteca.modelo;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,17 +10,38 @@ public class Categoria {
     private Long id;
     private String nome;
     private LocalDateTime dataCriacao = LocalDateTime.now();
+    private LocalDateTime dataAlteracao;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_alterou_id")
+    private Usuario usuarioAlterou;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    Usuario usuario;
+    private Usuario usuarioCriou;
 
-    public Categoria(String nome, Usuario usuario) {
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
+    }
+
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
+    public Categoria(String nome, Usuario usuarioCriou) {
         this.nome = nome;
     }
 
     public Categoria() {
 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
     public Categoria(String nomeCategoria) {
@@ -48,10 +68,22 @@ public class Categoria {
         return dataCriacao;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuarioCriou(Usuario usuarioCriou) {
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
+
+    public Usuario getUsuarioCriou() {
+        return usuarioCriou;
     }
 }

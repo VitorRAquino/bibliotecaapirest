@@ -1,11 +1,11 @@
 package br.com.api.biblioteca.form;
 
-import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.UsuarioRepository;
-import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
-import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class UsuarioForm {
     @NotNull
@@ -24,7 +24,6 @@ public class UsuarioForm {
     private String email;
 
 
-
     public String getNome() {
         return nome;
     }
@@ -33,7 +32,26 @@ public class UsuarioForm {
         this.nome = nome;
     }
 
+
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Usuario converter(UsuarioRepository usuarioRepository) {
         return new Usuario(nome, senha, email);
     }
+
 }

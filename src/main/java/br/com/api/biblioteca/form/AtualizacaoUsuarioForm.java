@@ -1,8 +1,6 @@
 package br.com.api.biblioteca.form;
 
-import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
-import br.com.api.biblioteca.repository.AutorRepository;
 import br.com.api.biblioteca.repository.UsuarioRepository;
 
 public class AtualizacaoUsuarioForm {
@@ -23,4 +21,21 @@ public class AtualizacaoUsuarioForm {
 
         return usuario;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
+

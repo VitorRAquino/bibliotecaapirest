@@ -14,15 +14,17 @@ public class DetalhesDoCategoriaDto {
 
     private String nomeUsuario;
 
-    private String nomeAutor;
+    private String nomeUsuarioAlterou;
 
-    private String nomeCategoria;
+    private LocalDateTime dataAlteracao;
 
     public DetalhesDoCategoriaDto(Categoria categoria) {
         this.id = categoria.getId();
         this.nome = categoria.getNome();
         this.dataCriacao = categoria.getDataCriacao();
-        this.nomeUsuario = categoria.getUsuario().getNome();
+        this.nomeUsuario = categoria.getUsuarioCriou().getNome();
+        this.nomeUsuarioAlterou = categoria.getUsuarioAlterou().getNome();
+        this.dataAlteracao = categoria.getDataAlteracao();
     }
 
     public Long getId() {
@@ -41,11 +43,11 @@ public class DetalhesDoCategoriaDto {
         return nomeUsuario;
     }
 
-    public String getNomeAutor() {
-        return nomeAutor;
+    public String getNomeUsuarioAlterou() {
+        return nomeUsuarioAlterou;
     }
 
-    public String getNomeCategoria() {
-        return nomeCategoria;
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
     }
 }

@@ -1,7 +1,7 @@
 package br.com.api.biblioteca.modelo;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,16 +13,38 @@ public class Autor {
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
+    private LocalDateTime dataAlteracao;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_alterou_id")
+    private Usuario usuarioAlterou;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    Usuario usuario;
+    private Usuario usuarioCriou;
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
+    }
+
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
+    public Usuario getUsuarioCriou() {
+        return usuarioCriou;
     }
 
 
-    public Autor(String nome, Usuario usuario) {
+    public Autor(String nome, Usuario usuarioCriou) {
         this.nome = nome;
     }
 
@@ -30,6 +52,21 @@ public class Autor {
 
     }
 
+    public Autor(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
 
     public String getNome() {
         return nome;
@@ -51,7 +88,7 @@ public class Autor {
         return dataCriacao;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioCriou(Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
     }
 }

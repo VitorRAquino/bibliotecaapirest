@@ -1,6 +1,5 @@
 package br.com.api.biblioteca.dto;
 
-import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
 
 import java.time.LocalDateTime;

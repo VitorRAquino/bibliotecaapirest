@@ -13,12 +13,30 @@ public class AtualizacaoCategoriaForm {
 
     private String nomeUsuario;
 
+    private String nomeUsuarioAlterou;
 
     public Categoria atualizar(Long id, CategoriaRepository categoriaRepository) {
         Categoria categoria = categoriaRepository.getOne(id);
         categoria.setNome(this.nome);
-        categoria.setUsuario(new Usuario(this.nomeUsuario));
+        categoria.getUsuarioCriou().setNome(nomeUsuario);
+        categoria.getUsuarioAlterou().setNome(nomeUsuarioAlterou);
 
         return categoria;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public void setNomeUsuarioAlterou(String nomeUsuarioAlterou) {
+        this.nomeUsuarioAlterou = nomeUsuarioAlterou;
     }
 }

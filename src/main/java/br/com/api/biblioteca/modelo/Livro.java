@@ -1,7 +1,6 @@
 package br.com.api.biblioteca.modelo;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,9 +13,15 @@ public class Livro {
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
+    private LocalDateTime dataAlteracao;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_alterou_id")
+    private Usuario usuarioAlterou;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuarioCriou;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
@@ -26,12 +31,20 @@ public class Livro {
     @JoinColumn(name = "autor_id")
     private Autor autor;
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
+    public Usuario getUsuarioCriou() {
+        return usuarioCriou;
+    }
+
+    public void setUsuarioCriou(Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
     }
 
     public Autor getAutor() {
@@ -51,10 +64,11 @@ public class Livro {
     }
 
 
-    public Livro(String nome, Categoria categoria, Autor autor, Usuario usuario) {
+    public Livro(String nome, Categoria categoria, Autor autor, Usuario usuarioCriou) {
         this.nome = nome;
         this.categoria = categoria;
         this.autor = autor;
+        this.usuarioCriou = usuarioCriou;
     }
 
     public Livro() {
@@ -69,6 +83,13 @@ public class Livro {
         return result;
     }
 
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
 
     public Long getId() {
         return id;

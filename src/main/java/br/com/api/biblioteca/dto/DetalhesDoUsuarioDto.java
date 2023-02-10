@@ -1,6 +1,5 @@
 package br.com.api.biblioteca.dto;
 
-import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
 
 import java.time.LocalDateTime;
@@ -17,6 +16,8 @@ public class DetalhesDoUsuarioDto {
 
     private LocalDateTime dataCriacao;
 
+    private LocalDateTime dataAlteracao;
+
     private String nomeUsuario;
 
 
@@ -26,6 +27,7 @@ public class DetalhesDoUsuarioDto {
         this.nome = usuario.getNome();
         this.dataCriacao = usuario.getDataCriacao();
         this.email = usuario.getEmail();
+        this.dataAlteracao = usuario.getDataAlteracao();
     }
 
     public Long getId() {
@@ -36,8 +38,20 @@ public class DetalhesDoUsuarioDto {
         return nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
     }
 
     public String getNomeUsuario() {

@@ -7,19 +7,25 @@ import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.AutorRepository;
 import br.com.api.biblioteca.repository.CategoriaRepository;
 import br.com.api.biblioteca.repository.UsuarioRepository;
-import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
-import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class LivroForm {
-    @NotNull @NotEmpty @Length(min = 5)
+    @NotNull
+    @NotEmpty
+    @Length(min = 5)
     private String nome;
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nomeCategoria;
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nomeAutor;
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String nomeUsuario;
 
 
@@ -45,6 +51,14 @@ public class LivroForm {
 
     public void setNomeAutor(String nomeAutor) {
         this.nomeAutor = nomeAutor;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public Livro converter(CategoriaRepository categoriaRepository, AutorRepository autorRepository, UsuarioRepository usuarioRepository) {

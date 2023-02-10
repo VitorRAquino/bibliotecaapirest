@@ -13,12 +13,30 @@ public class AtualizacaoAutorForm {
 
     private String nomeUsuario;
 
+    private String nomeUsuarioAlterou;
+
 
     public Autor atualizar(Long id, AutorRepository autorRepository) {
         Autor autor = autorRepository.getOne(id);
         autor.setNome(this.nome);
-        autor.setUsuario(new Usuario(this.nomeUsuario));
-
+        autor.getUsuarioCriou().setNome(nomeUsuario);
+        autor.getUsuarioAlterou().setNome(nomeUsuarioAlterou);
         return autor;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public void setNomeUsuarioAlterou(String nomeUsuarioAlterou) {
+        this.nomeUsuarioAlterou = nomeUsuarioAlterou;
     }
 }
