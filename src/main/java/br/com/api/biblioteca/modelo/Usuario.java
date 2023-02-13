@@ -17,6 +17,15 @@ public class Usuario implements UserDetails {
     private String nome;
     private String email;
     private String senha;
+
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_criou_id")
+    private Usuario usuarioCriou;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_alterou_id")
+    private Usuario usuarioAlterou;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Perfil> perfis = new ArrayList<>();
 
@@ -24,10 +33,19 @@ public class Usuario implements UserDetails {
 
     private LocalDateTime dataAlteracao;
 
-    public Usuario(String nome, String senha, String email) {
+    public Usuario getUsuarioCriou() {
+        return usuarioCriou;
+    }
+
+    public void setUsuarioCriou(Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
+    }
+
+    public Usuario(String nome, String senha, String email, Usuario usuarioCriou) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
+        this.usuarioCriou = usuarioCriou;
     }
 
     public Usuario() {
@@ -102,6 +120,16 @@ public class Usuario implements UserDetails {
         return dataCriacao;
     }
 
+
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
+    }
+
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.perfis;
@@ -136,4 +164,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

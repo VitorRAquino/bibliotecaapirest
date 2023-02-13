@@ -1,15 +1,17 @@
 package br.com.api.biblioteca.controller;
 
+import br.com.api.biblioteca.config.security.AutenticacaoService;
 import br.com.api.biblioteca.dto.AutorDto;
 import br.com.api.biblioteca.dto.DetalhesDoAutorDto;
+import br.com.api.biblioteca.dto.UsuarioDto;
 import br.com.api.biblioteca.form.AtualizacaoAutorForm;
 import br.com.api.biblioteca.form.AutorForm;
 import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.repository.AutorRepository;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,8 +29,10 @@ public class AutorController {
 
     @Autowired
     private AutorRepository autorRepository;
+
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private AutenticacaoService autenticacaoService;
 
 
     @GetMapping
@@ -45,8 +49,9 @@ public class AutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<AutorDto> cadastrar(@RequestBody @Valid AutorForm form, UriComponentsBuilder uriBuilder) {
-        Autor autor = form.converter(usuarioRepository);
+    public ResponseEntity<AutorDto> cadastrar(@RequestBody @Valid AutorForm form, UriComponentsBuilder uriBuilder, @AuthenticationPrincipal UsuarioDto usuarioDto) {
+
+        Autor autor = form.converter(autenticacaoService.getUsuarioLogado());
 
         autorRepository.save(autor);
 
@@ -70,7 +75,7 @@ public class AutorController {
     public ResponseEntity<AutorDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoAutorForm form) {
         Optional<Autor> optional = autorRepository.findById(id);
         if (optional.isPresent()) {
-            Autor autor = form.atualizar(id, autorRepository);
+            Autor autor = form.atualizar(id, autorRepository, autenticacaoService.getUsuarioLogado());
             return ResponseEntity.ok(new AutorDto(autor));
         }
 

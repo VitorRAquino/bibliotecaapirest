@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 public class DetalhesDoEmprestimoDto {
 
-    private  String nomeUsuarioAlterou;
-    private  LocalDateTime dataLimite;
-    private  LocalDateTime dataEntrega;
-    private  String nomeCliente;
+    private String nomeUsuarioAlterou;
+    private LocalDateTime dataLimite;
+    private LocalDateTime dataEntrega;
+    private String nomeCliente;
     private Long id;
     private LocalDateTime dataCriacao;
     private String nomeUsuario;

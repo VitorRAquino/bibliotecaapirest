@@ -6,7 +6,6 @@ import br.com.api.biblioteca.modelo.Livro;
 import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.AutorRepository;
 import br.com.api.biblioteca.repository.CategoriaRepository;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -61,10 +60,9 @@ public class LivroForm {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public Livro converter(CategoriaRepository categoriaRepository, AutorRepository autorRepository, UsuarioRepository usuarioRepository) {
+    public Livro converter(CategoriaRepository categoriaRepository, AutorRepository autorRepository, Usuario usuarioLogado) {
         Categoria categoria = categoriaRepository.findByNome(nomeCategoria);
         Autor autor = autorRepository.findByNome(nomeAutor);
-        Usuario usuario = usuarioRepository.findByNome(nomeUsuario);
-        return new Livro(nome, categoria, autor, usuario);
+        return new Livro(nome, categoria, autor, usuarioLogado);
     }
 }

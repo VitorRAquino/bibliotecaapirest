@@ -1,7 +1,6 @@
 package br.com.api.biblioteca.modelo;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -46,10 +45,11 @@ public class Emprestimo {
         this.usuarioAlterou = usuarioAlterou;
     }
 
-    public Emprestimo(LocalDateTime dataLimite, Livro livro, Usuario usuarioCriou) {
+    public Emprestimo(LocalDateTime dataLimite, Livro livro, Usuario usuarioCriou, Cliente cliente) {
         this.usuarioCriou = usuarioCriou;
         this.livro = livro;
         this.dataLimite = dataLimite;
+        this.cliente = cliente;
     }
 
     public Emprestimo() {

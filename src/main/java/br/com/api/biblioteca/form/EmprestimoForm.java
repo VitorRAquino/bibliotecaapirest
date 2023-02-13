@@ -6,7 +6,6 @@ import br.com.api.biblioteca.modelo.Livro;
 import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.ClienteRepository;
 import br.com.api.biblioteca.repository.LivroRepository;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -33,13 +32,10 @@ public class EmprestimoForm {
     private LocalDateTime dataLimite;
 
 
-
-
-    public Emprestimo converter(LivroRepository livroRepository, UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
+    public Emprestimo converter(LivroRepository livroRepository, Usuario usuarioLogado, ClienteRepository clienteRepository) {
         Livro livro = livroRepository.findByNome(nomeLivro);
-        Usuario usuario = usuarioRepository.findByNome(nomeUsuario);
         Cliente cliente = clienteRepository.findByNome(nomeCliente);
-        return new Emprestimo(dataLimite,livro, usuario);
+        return new Emprestimo(dataLimite, livro, usuarioLogado, cliente);
     }
 
     public String getNomeLivro() {

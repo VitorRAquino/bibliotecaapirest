@@ -20,6 +20,8 @@ public class ClienteDto {
 
     private String telefone;
 
+    private String nomeUsuario;
+
     public ClienteDto(Cliente cliente) {
         this.id = cliente.getId();
         this.nome = cliente.getNome();
@@ -27,6 +29,7 @@ public class ClienteDto {
         this.email = cliente.getEmail();
         this.telefone = cliente.getTelefone();
         this.dataNascimento = cliente.getDataNascimento();
+        this.nomeUsuario = cliente.getUsuarioCriou().getNome();
     }
 
     public static List<ClienteDto> converter(List<Cliente> clientes) {
@@ -55,5 +58,9 @@ public class ClienteDto {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 }

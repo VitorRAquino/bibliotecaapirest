@@ -20,16 +20,9 @@ public class Categoria {
     @JoinColumn(name = "usuario_id")
     private Usuario usuarioCriou;
 
-    public Usuario getUsuarioAlterou() {
-        return usuarioAlterou;
-    }
-
-    public void setUsuarioAlterou(Usuario usuarioAlterou) {
-        this.usuarioAlterou = usuarioAlterou;
-    }
-
-    public Categoria(String nome, Usuario usuarioCriou) {
+    public Categoria(String nome, Usuario usuario) {
         this.nome = nome;
+        this.usuarioCriou = usuario;
     }
 
     public Categoria() {
@@ -44,8 +37,12 @@ public class Categoria {
         return result;
     }
 
-    public Categoria(String nomeCategoria) {
-        this.nome = nomeCategoria;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -56,19 +53,8 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
-    }
-
-    public void setUsuarioCriou(Usuario usuarioCriou) {
     }
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
@@ -83,7 +69,19 @@ public class Categoria {
         this.dataAlteracao = dataAlteracao;
     }
 
+    public Usuario getUsuarioAlterou() {
+        return usuarioAlterou;
+    }
+
+    public void setUsuarioAlterou(Usuario usuarioAlterou) {
+        this.usuarioAlterou = usuarioAlterou;
+    }
+
     public Usuario getUsuarioCriou() {
         return usuarioCriou;
+    }
+
+    public void setUsuarioCriou(Usuario usuarioCriou) {
+        this.usuarioCriou = usuarioCriou;
     }
 }

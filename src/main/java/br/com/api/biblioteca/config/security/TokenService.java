@@ -21,16 +21,16 @@ public class TokenService {
     private String secret;
 
     public String gerarToken(Authentication authentication) {
-           Usuario logado = (Usuario) authentication.getPrincipal();
-           Date hoje = new Date();
-           Date expiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
+        Usuario logado = (Usuario) authentication.getPrincipal();
+        Date hoje = new Date();
+        Date expiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
 
         return Jwts.builder()
                 .setIssuer("API da biblioteca")
                 .setSubject(logado.getId().toString())
                 .setIssuedAt(hoje)
                 .setExpiration(expiracao)
-                .signWith(SignatureAlgorithm.HS256,secret)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
@@ -38,7 +38,7 @@ public class TokenService {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
@@ -46,6 +46,6 @@ public class TokenService {
 
     public Long getIdUsuario(String token) {
         Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        return   Long.parseLong(claims.getSubject());
+        return Long.parseLong(claims.getSubject());
     }
 }

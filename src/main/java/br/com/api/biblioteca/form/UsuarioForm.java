@@ -1,7 +1,6 @@
 package br.com.api.biblioteca.form;
 
 import br.com.api.biblioteca.modelo.Usuario;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -33,7 +32,6 @@ public class UsuarioForm {
     }
 
 
-
     public String getSenha() {
         return senha;
     }
@@ -50,8 +48,8 @@ public class UsuarioForm {
         this.email = email;
     }
 
-    public Usuario converter(UsuarioRepository usuarioRepository) {
-        return new Usuario(nome, senha, email);
+    public Usuario converter(Usuario usuarioLogado) {
+        return new Usuario(nome, senha, email, usuarioLogado);
     }
 
 }

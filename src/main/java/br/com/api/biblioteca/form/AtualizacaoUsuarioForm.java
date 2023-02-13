@@ -13,11 +13,13 @@ public class AtualizacaoUsuarioForm {
 
     private String nome;
 
-    public Usuario atualizar(Long id, UsuarioRepository usuarioRepository) {
+
+    public Usuario atualizar(Long id, UsuarioRepository usuarioRepository, Usuario usuarioLogado) {
         Usuario usuario = usuarioRepository.getOne(id);
         usuario.setNome(this.nome);
         usuario.setEmail(this.email);
         usuario.setSenha(this.senha);
+        usuario.setUsuarioAlterou(usuarioLogado);
 
         return usuario;
     }
@@ -37,5 +39,6 @@ public class AtualizacaoUsuarioForm {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 }
 

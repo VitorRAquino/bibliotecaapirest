@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import javax.validation.Valid;
 
 @RestController
@@ -37,8 +36,8 @@ public class AutenticacaoController {
             Authentication authentication = authenticationManager.authenticate(dadosLogin);
             String token = tokenService.gerarToken(authentication);
             return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-        } catch(AuthenticationException e) {
-                return ResponseEntity.badRequest().build();
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().build();
         }
 
 

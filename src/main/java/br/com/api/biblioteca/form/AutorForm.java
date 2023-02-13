@@ -2,7 +2,6 @@ package br.com.api.biblioteca.form;
 
 import br.com.api.biblioteca.modelo.Autor;
 import br.com.api.biblioteca.modelo.Usuario;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,9 +26,8 @@ public class AutorForm {
         this.nome = nome;
     }
 
-    public Autor converter(UsuarioRepository usuarioRepository) {
-        Usuario usuario = usuarioRepository.findByNome(nomeUsuario);
-        return new Autor(nome, usuario);
+    public Autor converter(Usuario usuarioLogado) {
+        return new Autor(nome, usuarioLogado);
     }
 
     public String getNomeUsuario() {

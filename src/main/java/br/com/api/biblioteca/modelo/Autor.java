@@ -46,6 +46,7 @@ public class Autor {
 
     public Autor(String nome, Usuario usuarioCriou) {
         this.nome = nome;
+        this.usuarioCriou = usuarioCriou;
     }
 
     public Autor() {

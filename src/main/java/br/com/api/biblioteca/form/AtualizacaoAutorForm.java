@@ -11,16 +11,10 @@ public class AtualizacaoAutorForm {
 
     private String nome;
 
-    private String nomeUsuario;
-
-    private String nomeUsuarioAlterou;
-
-
-    public Autor atualizar(Long id, AutorRepository autorRepository) {
+    public Autor atualizar(Long id, AutorRepository autorRepository, Usuario usuarioLogado) {
         Autor autor = autorRepository.getOne(id);
         autor.setNome(this.nome);
-        autor.getUsuarioCriou().setNome(nomeUsuario);
-        autor.getUsuarioAlterou().setNome(nomeUsuarioAlterou);
+        autor.setUsuarioAlterou(usuarioLogado);
         return autor;
     }
 
@@ -30,13 +24,5 @@ public class AtualizacaoAutorForm {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
-    }
-
-    public void setNomeUsuarioAlterou(String nomeUsuarioAlterou) {
-        this.nomeUsuarioAlterou = nomeUsuarioAlterou;
     }
 }

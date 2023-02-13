@@ -2,7 +2,6 @@ package br.com.api.biblioteca.form;
 
 import br.com.api.biblioteca.modelo.Cliente;
 import br.com.api.biblioteca.modelo.Usuario;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -87,9 +86,8 @@ public class ClienteForm {
         this.nome = nome;
     }
 
-    public Cliente converter(UsuarioRepository usuarioRepository) {
-        Usuario usuario = usuarioRepository.findByNome(nomeUsuario);
-        return new Cliente(nome, email, telefone, dataNascimento, documentoIdentidade, usuario);
+    public Cliente converter(Usuario usuarioLogado) {
+        return new Cliente(nome, email, telefone, dataNascimento, documentoIdentidade, usuarioLogado);
     }
 
 }

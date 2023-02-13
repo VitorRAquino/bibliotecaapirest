@@ -1,12 +1,10 @@
 package br.com.api.biblioteca.controller;
 
-import br.com.api.biblioteca.dto.ClienteDto;
+import br.com.api.biblioteca.config.security.AutenticacaoService;
 import br.com.api.biblioteca.dto.DetalhesDoEmprestimoDto;
 import br.com.api.biblioteca.dto.EmprestimoDto;
-import br.com.api.biblioteca.form.AtualizacaoClienteForm;
 import br.com.api.biblioteca.form.AtualizacaoEmprestimoForm;
 import br.com.api.biblioteca.form.EmprestimoForm;
-import br.com.api.biblioteca.modelo.Cliente;
 import br.com.api.biblioteca.modelo.Emprestimo;
 import br.com.api.biblioteca.repository.ClienteRepository;
 import br.com.api.biblioteca.repository.EmprestimoRepository;
@@ -39,6 +37,9 @@ public class EmprestimoController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
+
 
     @GetMapping
     @Transactional
@@ -55,7 +56,7 @@ public class EmprestimoController {
     @PostMapping
     @Transactional
     public ResponseEntity<EmprestimoDto> cadastrar(@RequestBody @Valid EmprestimoForm form, UriComponentsBuilder uriBuilder) {
-        Emprestimo emprestimo = form.converter(livroRepository, usuarioRepository, clienteRepository);
+        Emprestimo emprestimo = form.converter(livroRepository, autenticacaoService.getUsuarioLogado(), clienteRepository);
 
         emprestimoRepository.save(emprestimo);
 
@@ -70,12 +71,13 @@ public class EmprestimoController {
 
         return ResponseEntity.notFound().build();
     }
+
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<EmprestimoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoEmprestimoForm form) {
         Optional<Emprestimo> optional = emprestimoRepository.findById(id);
         if (optional.isPresent()) {
-            Emprestimo emprestimo = form.atualizar(id, emprestimoRepository);
+            Emprestimo emprestimo = form.atualizar(id, emprestimoRepository, autenticacaoService.getUsuarioLogado());
             return ResponseEntity.ok(new EmprestimoDto(emprestimo));
         }
 

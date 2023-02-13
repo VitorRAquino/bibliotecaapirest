@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class UsuarioDto {
 
+    private Usuario usuario;
     private Long id;
 
     private String nome;
@@ -49,4 +50,9 @@ public class UsuarioDto {
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
 }

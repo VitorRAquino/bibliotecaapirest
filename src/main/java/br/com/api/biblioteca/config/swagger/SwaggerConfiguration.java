@@ -21,8 +21,8 @@ public class SwaggerConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.com.api.biblioteca"))
                 .paths(PathSelectors.ant("/**"))
-                        .build()
-                        .ignoredParameterTypes(Usuario.class)
+                .build()
+                .ignoredParameterTypes(Usuario.class)
                 .globalOperationParameters(Arrays.asList(
                         new ParameterBuilder()
                                 .name("Authorization")

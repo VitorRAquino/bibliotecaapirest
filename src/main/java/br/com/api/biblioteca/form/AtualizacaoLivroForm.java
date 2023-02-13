@@ -1,6 +1,7 @@
 package br.com.api.biblioteca.form;
 
 import br.com.api.biblioteca.modelo.Livro;
+import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.LivroRepository;
 
 public class AtualizacaoLivroForm {
@@ -14,13 +15,12 @@ public class AtualizacaoLivroForm {
 
     private String nomeUsuario;
 
-    public Livro atualizar(Long id, LivroRepository livroRepository) {
+    public Livro atualizar(Long id, LivroRepository livroRepository, Usuario usuarioLogado) {
         Livro livro = livroRepository.getOne(id);
         livro.setNome(nome);
         livro.getAutor().setNome(nomeAutor);
         livro.getCategoria().setNome(nomeCategoria);
-        livro.getUsuarioCriou().setNome(nomeUsuario);
-
+        livro.setUsuarioAlterou(usuarioLogado);
 
         return livro;
     }

@@ -2,6 +2,7 @@ package br.com.api.biblioteca.form;
 
 import br.com.api.biblioteca.modelo.Emprestimo;
 import br.com.api.biblioteca.modelo.StatusEmprestimo;
+import br.com.api.biblioteca.modelo.Usuario;
 import br.com.api.biblioteca.repository.EmprestimoRepository;
 
 import java.time.LocalDateTime;
@@ -16,24 +17,18 @@ public class AtualizacaoEmprestimoForm {
 
     private String nomeLivro;
 
-    private String nomeUsuario;
-
-    private String nomeUsuarioAlterou;
-
     private String nomeCliente;
 
 
-
-    public Emprestimo atualizar(Long id, EmprestimoRepository emprestimoRepository) {
+    public Emprestimo atualizar(Long id, EmprestimoRepository emprestimoRepository, Usuario usuarioLogado) {
         Emprestimo emprestimo = emprestimoRepository.getOne(id);
         emprestimo.setDataEntrega(this.dataEntrega);
         emprestimo.setDataLimite(this.dataLimite);
         emprestimo.setDataAlteracao(this.dataAlteracao);
         emprestimo.setStatus(this.statusEmprestimo);
         emprestimo.getLivro().setNome(nomeLivro);
-        emprestimo.getUsuarioCriou().setNome(nomeUsuario);
-        emprestimo.getUsuarioAlterou().setNome(nomeUsuarioAlterou);
         emprestimo.getCliente().setNome(nomeCliente);
+        emprestimo.setUsuarioAlterou(usuarioLogado);
 
         return emprestimo;
     }
@@ -74,9 +69,6 @@ public class AtualizacaoEmprestimoForm {
         return dataAlteracao;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
-    }
 
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
@@ -84,10 +76,6 @@ public class AtualizacaoEmprestimoForm {
 
     public String getNomeLivro() {
         return nomeLivro;
-    }
-
-    public void setNomeUsuarioAlterou(String nomeUsuarioAlterou) {
-        this.nomeUsuarioAlterou = nomeUsuarioAlterou;
     }
 
     public void setNomeLivro(String nomeLivro) {

@@ -14,10 +14,13 @@ public class AutorDto {
 
     private LocalDateTime dataCriacao;
 
+    private String nomeUsuario;
+
     public AutorDto(Autor autor) {
         this.id = autor.getId();
         this.nome = autor.getNome();
         this.dataCriacao = autor.getDataCriacao();
+        this.nomeUsuario = autor.getUsuarioCriou().getNome();
     }
 
     public static List<AutorDto> converter(List<Autor> autores) {
@@ -34,5 +37,9 @@ public class AutorDto {
 
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 }

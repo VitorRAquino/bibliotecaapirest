@@ -1,5 +1,6 @@
 package br.com.api.biblioteca.controller;
 
+import br.com.api.biblioteca.config.security.AutenticacaoService;
 import br.com.api.biblioteca.dto.ClienteDto;
 import br.com.api.biblioteca.dto.DetalhesDoClienteDto;
 import br.com.api.biblioteca.form.AtualizacaoClienteForm;
@@ -29,6 +30,9 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
+
 
     @GetMapping
     @Transactional
@@ -45,7 +49,7 @@ public class ClienteController {
     @PostMapping
     @Transactional
     public ResponseEntity<ClienteDto> cadastrar(@RequestBody @Valid ClienteForm form, UriComponentsBuilder uriBuilder) {
-        Cliente cliente = form.converter(usuarioRepository);
+        Cliente cliente = form.converter(autenticacaoService.getUsuarioLogado());
 
         clienteRepository.save(cliente);
 
@@ -69,7 +73,7 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoClienteForm form) {
         Optional<Cliente> optional = clienteRepository.findById(id);
         if (optional.isPresent()) {
-            Cliente cliente = form.atualizar(id, clienteRepository);
+            Cliente cliente = form.atualizar(id, clienteRepository, autenticacaoService.getUsuarioLogado());
             return ResponseEntity.ok(new ClienteDto(cliente));
         }
 

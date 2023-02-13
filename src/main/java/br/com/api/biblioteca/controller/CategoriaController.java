@@ -1,12 +1,12 @@
 package br.com.api.biblioteca.controller;
 
+import br.com.api.biblioteca.config.security.AutenticacaoService;
 import br.com.api.biblioteca.dto.CategoriaDto;
 import br.com.api.biblioteca.dto.DetalhesDoCategoriaDto;
 import br.com.api.biblioteca.form.AtualizacaoCategoriaForm;
 import br.com.api.biblioteca.form.CategoriaForm;
 import br.com.api.biblioteca.modelo.Categoria;
 import br.com.api.biblioteca.repository.CategoriaRepository;
-import br.com.api.biblioteca.repository.UsuarioRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +27,9 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private AutenticacaoService autenticacaoService;
 
 
     @GetMapping
@@ -45,8 +46,10 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CategoriaDto> cadastrar(@RequestBody @Valid CategoriaForm form, UriComponentsBuilder uriBuilder) {
-        Categoria categoria = form.converter(usuarioRepository);
+    public ResponseEntity<CategoriaDto> cadastrar(@RequestBody @Valid CategoriaForm form,
+                                                  UriComponentsBuilder uriBuilder) {
+
+        Categoria categoria = form.converter(autenticacaoService.getUsuarioLogado());
 
         categoriaRepository.save(categoria);
 
@@ -70,7 +73,7 @@ public class CategoriaController {
     public ResponseEntity<CategoriaDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoCategoriaForm form) {
         Optional<Categoria> optional = categoriaRepository.findById(id);
         if (optional.isPresent()) {
-            Categoria categoria = form.atualizar(id, categoriaRepository);
+            Categoria categoria = form.atualizar(id, categoriaRepository, autenticacaoService.getUsuarioLogado());
             return ResponseEntity.ok(new CategoriaDto(categoria));
         }
 

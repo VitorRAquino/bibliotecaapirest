@@ -1,5 +1,6 @@
 package br.com.api.biblioteca.controller;
 
+import br.com.api.biblioteca.config.security.AutenticacaoService;
 import br.com.api.biblioteca.dto.DetalhesDoUsuarioDto;
 import br.com.api.biblioteca.dto.UsuarioDto;
 import br.com.api.biblioteca.form.AtualizacaoUsuarioForm;
@@ -27,6 +28,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
 
     @GetMapping
     @Transactional
@@ -43,7 +46,7 @@ public class UsuarioController {
     @PostMapping
     @Transactional
     public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
-        Usuario usuario = form.converter(usuarioRepository);
+        Usuario usuario = form.converter(autenticacaoService.getUsuarioLogado());
 
         usuarioRepository.save(usuario);
 
@@ -67,7 +70,7 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoUsuarioForm form) {
         Optional<Usuario> optional = usuarioRepository.findById(id);
         if (optional.isPresent()) {
-            Usuario usuario = form.atualizar(id, usuarioRepository);
+            Usuario usuario = form.atualizar(id, usuarioRepository, autenticacaoService.getUsuarioLogado());
             return ResponseEntity.ok(new UsuarioDto(usuario));
         }
 
